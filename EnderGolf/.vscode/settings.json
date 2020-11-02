@@ -1,0 +1,10 @@
+{
+	"files.exclude": {
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/.vs": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/.vscode": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Content": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/DerivedDataCache": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Intermediate": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Saved": true
+	}
+}
