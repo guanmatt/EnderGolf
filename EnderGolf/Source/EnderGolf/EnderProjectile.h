@@ -50,7 +50,7 @@ public:
 	UMaterialInstanceDynamic* ProjectileMaterialInstance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
-	float InitialSpeed = 500.0f;
+	float InitialSpeed = 1000.0f;
 
 	// Function that is called when the projectile hits something.
 	// UFUNCTION()
@@ -67,4 +67,7 @@ public:
 	USphereComponent* CollisionComponent;
 	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	// UStaticMeshComponent* ProjectileMesh;
+
+	// UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
+		EMovementMode CurrentMode;
 };

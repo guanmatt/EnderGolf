@@ -17,7 +17,7 @@
 AEnderProjectile::AEnderProjectile()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	if(!RootComponent)
 	{
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
@@ -83,6 +83,7 @@ AEnderProjectile::AEnderProjectile()
 			Movement->SetMovementMode(EMovementMode::MOVE_None);
 		}
 	}
+	CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
 }
 
 // Called when the game starts or when spawned
@@ -96,7 +97,16 @@ void AEnderProjectile::BeginPlay()
 void AEnderProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (this->GetActorLocation().Z < -1000)
+	{
+		UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
+		// Movement->SetMovementMode(EMovementMode::MOVE_Walking);
+		// UE_LOG(LogTemp, Warning, TEXT("%s"), *(Movement->GetAirControl().ToString()));
+		Movement->SetMovementMode(CurrentMode);
+		Movement->AirControl = 1.f;
+		Movement->GravityScale = 1.f;
+		Destroy();
+	}
 }
 
 // Called to bind functionality to input

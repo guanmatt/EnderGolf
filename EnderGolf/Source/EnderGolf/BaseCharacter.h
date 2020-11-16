@@ -40,8 +40,8 @@ public:
 	// Function that handles firing projectiles.
 	UFUNCTION()
 	void Throw();
-	// UFUNCTION()
-	// void Throw_Sticky();
+	UFUNCTION()
+	void Throw1();
 
 	void GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation);
 	// Gun muzzle offset from the camera location.

@@ -6,6 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnderProjectile_Normal.h"
+#include "EnderProjectile_Sticky.h"
+#include "Engine.h"
+
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -24,6 +27,7 @@ void ABaseCharacter::BeginPlay()
 	// Display a debug message for five seconds. 
 	// The -1 "Key" value argument prevents the message from being updated or refreshed.
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
+
 }
 
 // Called every frame
@@ -43,6 +47,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("Turn", this, &ABaseCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &ABaseCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::Throw);
+	PlayerInputComponent->BindAction("Throw1", IE_Pressed, this, &ABaseCharacter::Throw1);
 
 }
 
@@ -85,6 +90,31 @@ void ABaseCharacter::Throw()
 		}
 	}
 }
+void ABaseCharacter::Throw1()
+{
+	FVector MuzzleLocation;
+	FRotator MuzzleRotation;
+	GetMuzzle(MuzzleLocation, MuzzleRotation);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+		// Spawn the projectile at the muzzle.
+		AEnderProjectile_Sticky* Projectile = World->SpawnActor<AEnderProjectile_Sticky>(MuzzleLocation, MuzzleRotation, SpawnParams);/*MyEnderProjectileBlueprint*/
+		if (Projectile)
+		{
+			// Set the projectile's initial trajectory.
+			FVector LaunchDirection = MuzzleRotation.Vector();
+			APlayerController* Player = UGameplayStatics::GetPlayerController(this, 0);
+			Player->SetViewTargetWithBlend(Projectile, 2.f);
+			Projectile->FireInDirection(LaunchDirection);
+			
+		}
+	}
+}
 void ABaseCharacter::GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation)
 {
 	UE_LOG(LogTemp, Warning, TEXT("FIRED"));
@@ -95,7 +125,7 @@ void ABaseCharacter::GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation
 	GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
 	// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
-	MuzzleOffset.Set(100.0f, 0.0f, 0.0f);
+	MuzzleOffset.Set(50.0f, 0.0f, 0.0f);
 
 	// Transform MuzzleOffset from camera space to world space.
 	MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
