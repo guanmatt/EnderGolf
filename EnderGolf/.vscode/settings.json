@@ -1,10 +1,10 @@
 {
 	"files.exclude": {
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/.vs": true,
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/.vscode": true,
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Content": true,
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/DerivedDataCache": true,
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Intermediate": true,
-		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/Saved": true
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/.vs": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/.vscode": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/Content": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/DerivedDataCache": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/Intermediate": true,
+		"C:/Users/Matthew/Documents/Unreal Projects/EnderGolf/EnderGolf/Saved": true
 	}
 }

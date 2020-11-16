@@ -4,16 +4,14 @@
             "name": "UnrealEngine",
             "includePath": [
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source",
-                "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\EnderGolf",
-                "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Source",
+                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\Engine",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime",
+                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Engine\\Classes",
+                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Engine\\Public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\TraceLog\\Public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Core\\Public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\CoreUObject",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\CoreUObject\\Public",
-                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\Engine",
-                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Engine\\Classes",
-                "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Engine\\Public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\NetCore",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Net",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Net\\Core\\Classes",
@@ -204,6 +202,8 @@
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\Experimental\\GeometryCollectionSimulationCore\\Public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\ClothingSystemRuntimeInterface",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\Runtime\\ClothingSystemRuntimeInterface\\Public",
+                "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\EnderGolf",
+                "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Source",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include\\cudamanager",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include\\filebuf",
@@ -227,7 +227,7 @@
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\APEX_1.4\\shared\\general\\RenderDebug\\public",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\APEX_1.4\\shared\\general\\PairFilter\\include",
                 "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Source\\ThirdParty\\PhysX3\\APEX_1.4\\shared\\internal\\include",
-                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.27.29110\\INCLUDE",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29333\\INCLUDE",
                 "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um",
                 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\ucrt",
                 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\shared",
@@ -235,6 +235,7 @@
                 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.18362.0\\winrt"
             ],
             "intelliSenseMode": "msvc-x64",
+
             "defines": [
                 "IS_PROGRAM=0",
                 "UE_EDITOR=1",
@@ -540,8 +541,7 @@
                 "ENDERGOLF_VTABLE=DLLEXPORT_VTABLE",
                 "ENDERGOLF_API="
             ],
-
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.27.29110/bin/Hostx64/x64/cl.exe",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x64/cl.exe",
             "cStandard": "c17",
             "cppStandard": "c++17"
         }

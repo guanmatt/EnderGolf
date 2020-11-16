@@ -1,18 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "GameFramework/PlayerController.h"
 #include "BaseCharacter.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "EnderProjectile_Normal.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	static ConstructorHelpers::FObjectFinder<UBlueprint> EnderProjectileBlueprint(TEXT("Blueprint'/Game/Blueprints/BP_EnderProjectile.BP_EnderProjectile'"));
-	if (EnderProjectileBlueprint.Object)
-	{
-		MyEnderProjectileBlueprint = (UClass*) EnderProjectileBlueprint.Object->GeneratedClass;
-	}
+	
 }
 
 // Called when the game starts or when spawned
@@ -42,7 +42,8 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("MoveRight", this, &ABaseCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &ABaseCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &ABaseCharacter::AddControllerPitchInput);
-	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::Fire);
+	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::Throw);
+
 }
 
 void ABaseCharacter::MoveForward(float Value)
@@ -59,43 +60,47 @@ void ABaseCharacter::MoveRight(float Value)
     AddMovementInput(Direction, Value);
 }
 
-void ABaseCharacter::Fire()
+void ABaseCharacter::Throw()
+{
+	FVector MuzzleLocation;
+	FRotator MuzzleRotation;
+	GetMuzzle(MuzzleLocation, MuzzleRotation);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+		// Spawn the projectile at the muzzle.
+		AEnderProjectile_Normal* Projectile = World->SpawnActor<AEnderProjectile_Normal>(MuzzleLocation, MuzzleRotation, SpawnParams);/*MyEnderProjectileBlueprint*/
+		if (Projectile)
+		{
+			// Set the projectile's initial trajectory.
+			FVector LaunchDirection = MuzzleRotation.Vector();
+			APlayerController* Player = UGameplayStatics::GetPlayerController(this, 0);
+			Player->SetViewTargetWithBlend(Projectile, 2.f);
+			Projectile->FireInDirection(LaunchDirection);
+			
+		}
+	}
+}
+void ABaseCharacter::GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation)
 {
 	UE_LOG(LogTemp, Warning, TEXT("FIRED"));
 // Attempt to fire a projectile.
-	if (MyEnderProjectileBlueprint /*ProjectileClass*/)
-	{
-		// Get the camera transform.
-		FVector CameraLocation;
-		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+	// Get the camera transform.
+	FVector CameraLocation;
+	FRotator CameraRotation;
+	GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-		// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
-		MuzzleOffset.Set(100.0f, 0.0f, 0.0f);
+	// Set MuzzleOffset to spawn projectiles slightly in front of the camera.
+	MuzzleOffset.Set(100.0f, 0.0f, 0.0f);
 
-		// Transform MuzzleOffset from camera space to world space.
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+	// Transform MuzzleOffset from camera space to world space.
+	MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
 
-		// Skew the aim to be slightly upwards.
-		FRotator MuzzleRotation = CameraRotation;
-		MuzzleRotation.Pitch += 10.0f;
-
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
-
-			// Spawn the projectile at the muzzle.
-			AEnderProjectile* Projectile = World->SpawnActor<AEnderProjectile>(MyEnderProjectileBlueprint/*ProjectileClass*/, MuzzleLocation, MuzzleRotation, SpawnParams);
-			if (Projectile)
-			{
-				// Set the projectile's initial trajectory.
-				FVector LaunchDirection = MuzzleRotation.Vector();
-				Projectile->FireInDirection(LaunchDirection);
-			
-			}
-		}
-	}
+	// Skew the aim to be slightly upwards.
+	MuzzleRotation = CameraRotation;
+	MuzzleRotation.Pitch += 10.0f;
 }

@@ -5,7 +5,7 @@
 			"name": "EnderGolf (Debug)",
 			"request": "launch",
 			"preLaunchTask": "EnderGolf Win64 Debug Build",
-			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Debug.exe",
+			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Debug.exe",
 			"args": [
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
@@ -18,7 +18,7 @@
 			"name": "EnderGolf (DebugGame)",
 			"request": "launch",
 			"preLaunchTask": "EnderGolf Win64 DebugGame Build",
-			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
+			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
 			"args": [
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
@@ -31,7 +31,7 @@
 			"name": "EnderGolf (Development)",
 			"request": "launch",
 			"preLaunchTask": "EnderGolf Win64 Development Build",
-			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Binaries\\Win64\\UE4.exe",
+			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Binaries\\Win64\\UE4.exe",
 			"args": [
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
@@ -44,7 +44,7 @@
 			"name": "EnderGolf (Shipping)",
 			"request": "launch",
 			"preLaunchTask": "EnderGolf Win64 Shipping Build",
-			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
+			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
 			"args": [
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
@@ -57,7 +57,7 @@
 			"name": "EnderGolf (Test)",
 			"request": "launch",
 			"preLaunchTask": "EnderGolf Win64 Test Build",
-			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Test.exe",
+			"program": "C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\Binaries\\Win64\\UE4-Win64-Test.exe",
 			"args": [
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
@@ -72,7 +72,7 @@
 			"preLaunchTask": "EnderGolfEditor Win64 Debug Build",
 			"program": "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Binaries\\Win64\\UE4Editor-Win64-Debug.exe",
 			"args": [
-				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf.uproject"
+				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\EnderGolf.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
 			"stopAtEntry": false,
@@ -86,7 +86,7 @@
 			"preLaunchTask": "EnderGolfEditor Win64 DebugGame Build",
 			"program": "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Binaries\\Win64\\UE4Editor-Win64-DebugGame.exe",
 			"args": [
-				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf.uproject"
+				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\EnderGolf.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
 			"stopAtEntry": false,
@@ -100,7 +100,7 @@
 			"preLaunchTask": "EnderGolfEditor Win64 Development Build",
 			"program": "C:\\Program Files\\Epic Games\\UE_4.25\\Engine\\Binaries\\Win64\\UE4Editor.exe",
 			"args": [
-				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf.uproject"
+				"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\EnderGolf.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_4.25",
 			"stopAtEntry": false,
@@ -117,7 +117,7 @@
 			"args": [
 				"-projectfiles",
 				"-vscode",
-				"-project=\"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf.uproject\"",
+				"-project=\"C:\\Users\\Matthew\\Documents\\Unreal Projects\\EnderGolf\\EnderGolf\\EnderGolf.uproject\"",
 				"-game",
 				"-engine"
 			],

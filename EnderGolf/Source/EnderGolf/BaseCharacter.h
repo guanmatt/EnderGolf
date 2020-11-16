@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "EnderProjectile.h"
+
+
 #include "BaseCharacter.generated.h"
 UCLASS()
 class ENDERGOLF_API ABaseCharacter : public ACharacter
@@ -21,7 +22,6 @@ protected:
 	// Projectile class to spawn.
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<class AEnderProjectile> ProjectileClass;
-	TSubclassOf<class AEnderProjectile> MyEnderProjectileBlueprint;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -39,9 +39,14 @@ public:
 
 	// Function that handles firing projectiles.
 	UFUNCTION()
-	void Fire();
+	void Throw();
+	// UFUNCTION()
+	// void Throw_Sticky();
+
+	void GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation);
 	// Gun muzzle offset from the camera location.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector MuzzleOffset;
 	
+	void DisablePlayerInput();
 };

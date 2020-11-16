@@ -32,10 +32,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// Sphere collision component.
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-	USphereComponent* CollisionComponent;
 	
+
 	// Projectile movement component.
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	UProjectileMovementComponent* ProjectileMovementComponent;
@@ -43,27 +41,30 @@ public:
 	// Function that initializes the projectile's velocity in the shoot direction.
 	void FireInDirection(const FVector& ShootDirection);
 
-	// // Projectile mesh
-	// UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-	// UStaticMeshComponent* ProjectileMeshComponent;
+	// Projectile mesh
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+	UStaticMeshComponent* ProjectileMeshComponent;
 
-	// // Projectile material
-	// UPROPERTY(VisibleDefaultsOnly, Category = Movement)
-	// UMaterialInstanceDynamic* ProjectileMaterialInstance;
+	// Projectile material
+	UPROPERTY(VisibleDefaultsOnly, Category = Movement)
+	UMaterialInstanceDynamic* ProjectileMaterialInstance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
 	float InitialSpeed = 500.0f;
 
 	// Function that is called when the projectile hits something.
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	// UFUNCTION()
+	// virtual void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 	FVector CollisionLocation;
 
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	// USpringArmComponent* SpringArm;
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	// UCameraComponent* Camera;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* SpringArm;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* Camera;
+		// Sphere collision component.
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+	USphereComponent* CollisionComponent;
 	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	// UStaticMeshComponent* ProjectileMesh;
 };
