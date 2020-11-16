@@ -83,14 +83,15 @@ AEnderProjectile::AEnderProjectile()
 			Movement->SetMovementMode(EMovementMode::MOVE_None);
 		}
 	}
-	CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
+	// CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
 }
 
 // Called when the game starts or when spawned
 void AEnderProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	// CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
+
 }
 
 // Called every frame
