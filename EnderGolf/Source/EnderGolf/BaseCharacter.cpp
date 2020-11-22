@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnderProjectile_Normal.h"
 #include "EnderProjectile_Sticky.h"
+#include "EnderProjectile_Invisible.h"
 #include "Engine.h"
 
 
@@ -48,6 +49,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("LookUp", this, &ABaseCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::Throw);
 	PlayerInputComponent->BindAction("Throw1", IE_Pressed, this, &ABaseCharacter::Throw1);
+	PlayerInputComponent->BindAction("ShowTrajectory", IE_Pressed, this, &ABaseCharacter::ShowTrajectory);
 
 }
 
@@ -71,6 +73,7 @@ void ABaseCharacter::Throw()
 	FRotator MuzzleRotation;
 	GetMuzzle(MuzzleLocation, MuzzleRotation);
 	UWorld* World = GetWorld();
+
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -133,4 +136,28 @@ void ABaseCharacter::GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation
 	// Skew the aim to be slightly upwards.
 	MuzzleRotation = CameraRotation;
 	MuzzleRotation.Pitch += 10.0f;
+}
+
+void ABaseCharacter::ShowTrajectory()
+{
+	FVector MuzzleLocation;
+	FRotator MuzzleRotation;
+	GetMuzzle(MuzzleLocation, MuzzleRotation);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = GetInstigator();
+
+		// Spawn the projectile at the muzzle.
+		AEnderProjectile_Invisible* Projectile = World->SpawnActor<AEnderProjectile_Invisible>(MuzzleLocation, MuzzleRotation, SpawnParams);
+		if (Projectile)
+		{
+			// Set the projectile's initial trajectory.
+			FVector LaunchDirection = MuzzleRotation.Vector();
+			Projectile->FireInDirection(LaunchDirection);
+			
+		}
+	}
 }

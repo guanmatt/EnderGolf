@@ -12,6 +12,15 @@ AEnderProjectile_Normal::AEnderProjectile_Normal()
 		CollisionComponent->OnComponentHit.AddDynamic(this, &AEnderProjectile_Normal::OnHit);
 
 	}
+	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(),0);
+	if (Player) {
+		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
+		if (Movement) 
+		{
+			// CurrentMode = Movement->GetGroundMovementMode();
+			Movement->SetMovementMode(EMovementMode::MOVE_None);
+		}
+	}
 	// CollisionComponent->OnComponentHit.AddDynamic(this, &AEnderProjectile_Normal::OnHit);
 }
 

@@ -75,14 +75,7 @@ AEnderProjectile::AEnderProjectile()
 
 
 
-	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(),0);
-	if (Player) {
-		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
-		if (Movement) 
-		{
-			Movement->SetMovementMode(EMovementMode::MOVE_None);
-		}
-	}
+
 	// CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
 }
 

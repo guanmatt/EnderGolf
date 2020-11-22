@@ -42,6 +42,8 @@ public:
 	void Throw();
 	UFUNCTION()
 	void Throw1();
+	UFUNCTION()
+	void ShowTrajectory();
 
 	void GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation);
 	// Gun muzzle offset from the camera location.
