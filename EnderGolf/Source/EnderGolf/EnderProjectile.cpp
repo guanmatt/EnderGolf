@@ -28,7 +28,7 @@ AEnderProjectile::AEnderProjectile()
 		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 		// Set the sphere's collision radius.
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
-		CollisionComponent->InitSphereRadius(15.0f);
+		CollisionComponent->InitSphereRadius(1.0f);//15.0f
 		// Set the root component to be the collision component.
 		RootComponent = CollisionComponent;
 	}
@@ -40,7 +40,7 @@ AEnderProjectile::AEnderProjectile()
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 		ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 		ProjectileMovementComponent->InitialSpeed = InitialSpeed;
-		ProjectileMovementComponent->MaxSpeed = 1500.0f;
+		ProjectileMovementComponent->MaxSpeed = InitialSpeed;
 		ProjectileMovementComponent->bRotationFollowsVelocity = true;
 		ProjectileMovementComponent->bShouldBounce = false;
 		ProjectileMovementComponent->Bounciness = 0.3f;

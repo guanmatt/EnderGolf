@@ -17,7 +17,7 @@ AEnderProjectile_Sticky::AEnderProjectile_Sticky()
 		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
 		if (Movement) 
 		{
-			// CurrentMode = Movement->GetGroundMovementMode();
+			CurrentMode = Movement->GetGroundMovementMode();
 			Movement->SetMovementMode(EMovementMode::MOVE_None);
 		}
 	}

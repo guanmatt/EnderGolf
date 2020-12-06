@@ -44,7 +44,8 @@ public:
 	void Throw1();
 	UFUNCTION()
 	void ShowTrajectory();
-
+	UFUNCTION()
+	void DrawTrajectory();
 	void GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation);
 	// Gun muzzle offset from the camera location.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)

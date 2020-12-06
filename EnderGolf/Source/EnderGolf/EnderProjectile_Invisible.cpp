@@ -15,7 +15,6 @@ AEnderProjectile_Invisible::AEnderProjectile_Invisible()
     {
         ProjectileMeshComponent->DestroyComponent();
     }
-    GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AEnderProjectile_Invisible::DrawTrajectory, 1.0f, true);
 }
 
 void AEnderProjectile_Invisible::Tick(float DeltaTime)
@@ -25,12 +24,13 @@ void AEnderProjectile_Invisible::Tick(float DeltaTime)
 
 void AEnderProjectile_Invisible::DrawTrajectory()
 {
-    DrawDebugPoint(GetWorld(), this->GetActorLocation(), 15.f, FColor(255,255,255), false, 10.f);
+    DrawDebugPoint(GetWorld(), this->GetActorLocation(), 15.f, FColor(255,255,255), false, 5.f);
 }
 
 void AEnderProjectile_Invisible::BeginPlay()
 {
 	Super::BeginPlay();
+    GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AEnderProjectile_Invisible::DrawTrajectory, 0.25f, true);
 
     
 }
