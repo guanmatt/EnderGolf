@@ -34,6 +34,8 @@ void ABaseCharacter::BeginPlay()
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	DrawTrajectory();
+	/*
 	FVector MuzzleLocation;
 	FRotator MuzzleRotation;
 	GetMuzzle(MuzzleLocation, MuzzleRotation);
@@ -42,12 +44,8 @@ void ABaseCharacter::Tick(float DeltaTime)
 
 	for (float i = 0.f; i<5.0f; i+=0.05)
 	{
-		ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ() * 0.5) * i * i);
-		/*ProjectilePoints.Push(FVector(
-			MuzzleLocation.X + MuzzleRotation.Vector().X * i,
-		 	MuzzleLocation.Y + MuzzleRotation.Vector().Y * i, 
-			MuzzleLocation.Z + MuzzleRotation.Vector().Z * i + 0.5 * GetWorld()->GetGravityZ() * i * i));
-		*/
+		ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 
+		1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ() * 0.5) * i * i);
 	}
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;
@@ -56,13 +54,14 @@ void ABaseCharacter::Tick(float DeltaTime)
 	{
 		GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_GameTraceChannel1, TraceParams);
 		if (HitResult.IsValidBlockingHit()){
+			// DrawDebugCircle(GetWorld(), ProjectilePoints[j], 5.0f, 1, FColor::Blue, false, 1, 0, 0);
 			// DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), false, DeltaTime);
 			break;
 		}
 		DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1], FColor::White, 1, 0, 1);
 		// DrawDebugCylinder(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1], 1.0f, 1, FColor::White, false, DeltaTime*2);
 		// DrawDebugPoint(GetWorld(), ProjectilePoints[j], 5.0f, FColor(255,0,0), true);
-	}
+	}*/
 }
 
 // Called to bind functionality to input
@@ -75,9 +74,12 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("Turn", this, &ABaseCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &ABaseCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Throw", IE_Released, this, &ABaseCharacter::Throw);
-	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::DrawTrajectory);
+	PlayerInputComponent->BindAction("Throw", IE_Released, this, &ABaseCharacter::SetUnheld);
+	PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &ABaseCharacter::SetHeld);
 	PlayerInputComponent->BindAction("Throw1", IE_Pressed, this, &ABaseCharacter::Throw1);
-	PlayerInputComponent->BindAction("ShowTrajectory", IE_Pressed, this, &ABaseCharacter::DrawTrajectory);
+	PlayerInputComponent->BindAction("ShowTrajectory", IE_Pressed, this, &ABaseCharacter::SetHeld);
+	PlayerInputComponent->BindAction("ShowTrajectory", IE_Released, this, &ABaseCharacter::SetUnheld);
+
 
 }
 
@@ -195,7 +197,7 @@ void ABaseCharacter::ShowTrajectory()
 	FPredictProjectilePathResult PredictResult;
 	bool Prediction = UGameplayStatics::PredictProjectilePath(GetWorld(),PredictParams, PredictResult);
 	
-	UE_LOG(LogTemp, Warning, TEXT("muzzle rotation: %s"), *	MuzzleRotation.Vector().GetSafeNormal().ToString());
+	// UE_LOG(LogTemp, Warning, TEXT("muzzle rotation: %s"), *	MuzzleRotation.Vector().GetSafeNormal().ToString());
 	// UE_LOG(LogTemp, Warning, TEXT("%s"), *PredictResult.LastTraceDestination.Location.ToString())
 	if (Prediction)
 	{
@@ -215,33 +217,47 @@ void ABaseCharacter::ShowTrajectory()
 
 void ABaseCharacter::DrawTrajectory()
 {
-	FVector MuzzleLocation;
-	FRotator MuzzleRotation;
-	GetMuzzle(MuzzleLocation, MuzzleRotation);
-
-	TArray<FVector> ProjectilePoints;
-
-	for (float i = 0.f; i<5.0f; i+=0.05)
+	// UE_LOG(LogTemp, Warning, TEXT("%d"), bIsHeld);
+	if (bIsHeld)
 	{
-		ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ() * 0.5) * i * i);
-		/*ProjectilePoints.Push(FVector(
-			MuzzleLocation.X + MuzzleRotation.Vector().X * i,
-		 	MuzzleLocation.Y + MuzzleRotation.Vector().Y * i, 
-			MuzzleLocation.Z + MuzzleRotation.Vector().Z * i + 0.5 * GetWorld()->GetGravityZ() * i * i));
-		*/
-	}
-	FHitResult HitResult;
-	FCollisionQueryParams TraceParams;
+		FVector MuzzleLocation;
+		FRotator MuzzleRotation;
+		GetMuzzle(MuzzleLocation, MuzzleRotation);
 
-	for (int32 j = 0; j < ProjectilePoints.Num()-1; j++)
-	{
-		GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_GameTraceChannel1, TraceParams);
-		UE_LOG(LogTemp, Warning, TEXT("%d"), HitResult.IsValidBlockingHit());
-		if (HitResult.IsValidBlockingHit()){
-			DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), true, 2.0f);
-			break;
+		TArray<FVector> ProjectilePoints;
+		// UE_LOG(LogTemp, Warning, TEXT("%f"), GetWorld()->GetDeltaSeconds());
+		// UE_LOG(LogTemp, Warning, TEXT("%d"), FApp::GetDeltaTime());
+		for (float i = 0.f; i<5.0f; i+=0.05)
+		{
+			ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ() * 0.5) * i * i);
+			/*ProjectilePoints.Push(FVector(
+				MuzzleLocation.X + MuzzleRotation.Vector().X * i,
+				MuzzleLocation.Y + MuzzleRotation.Vector().Y * i, 
+				MuzzleLocation.Z + MuzzleRotation.Vector().Z * i + 0.5 * GetWorld()->GetGravityZ() * i * i));
+			*/
 		}
-		DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), true, 2.0f);
-		// DrawDebugPoint(GetWorld(), ProjectilePoints[j], 5.0f, FColor(255,0,0), true);
+		FHitResult HitResult;
+		FCollisionQueryParams TraceParams;
+
+		for (int32 j = 0; j < ProjectilePoints.Num()-1; j++)
+		{
+			GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_GameTraceChannel1, TraceParams);
+			// UE_LOG(LogTemp, Warning, TEXT("%d"), HitResult.IsValidBlockingHit());
+			if (HitResult.IsValidBlockingHit()){
+				// DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), true, 2.0f);
+				break;
+			}
+			DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,255,255), false, GetWorld()->GetDeltaSeconds()+GetWorld()->GetDeltaSeconds()*0.0001);
+			// DrawDebugPoint(GetWorld(), ProjectilePoints[j], 5.0f, FColor(255,0,0), true);
+		}
 	}
+}
+
+void ABaseCharacter::SetHeld()
+{
+	bIsHeld = true;
+}
+void ABaseCharacter::SetUnheld()
+{
+	bIsHeld = false;
 }

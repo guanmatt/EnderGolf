@@ -29,6 +29,8 @@ AEnderProjectile::AEnderProjectile()
 		// Set the sphere's collision radius.
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 		CollisionComponent->InitSphereRadius(1.0f);//15.0f
+		// CollisionComponent->SetSimulatePhysics(true);
+		// UE_LOG(LogTemp, Warning, TEXT("physics: %d"), CollisionComponent->IsSimulatingPhysics());
 		// Set the root component to be the collision component.
 		RootComponent = CollisionComponent;
 	}

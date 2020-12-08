@@ -46,10 +46,12 @@ public:
 	void ShowTrajectory();
 	UFUNCTION()
 	void DrawTrajectory();
+	void SetHeld();
+	void SetUnheld();
 	void GetMuzzle(FVector &MuzzleLocation, FRotator &MuzzleRotation);
 	// Gun muzzle offset from the camera location.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector MuzzleOffset;
-	
+	bool bIsHeld = false;
 	void DisablePlayerInput();
 };

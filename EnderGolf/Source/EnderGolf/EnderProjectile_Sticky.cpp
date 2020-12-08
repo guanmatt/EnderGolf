@@ -24,6 +24,11 @@ AEnderProjectile_Sticky::AEnderProjectile_Sticky()
 	// CollisionComponent->OnComponentHit.AddDynamic(this, &AEnderProjectile_Normal::OnHit);
 }
 
+void AEnderProjectile_Sticky::BeginPlay()
+{
+	Super::BeginPlay();
+	// ProjectileMovementComponent->AddForce(FVector(0.f,0.f,10000.f));
+}
 void AEnderProjectile_Sticky::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	CollisionLocation = HitComponent->GetComponentLocation();
