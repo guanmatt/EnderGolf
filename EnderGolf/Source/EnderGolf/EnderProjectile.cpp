@@ -21,7 +21,9 @@ AEnderProjectile::AEnderProjectile()
 	if(!RootComponent)
 	{
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
+
 	}
+	
    	if(!CollisionComponent)
 	{
 		// Use a sphere as a simple collision representation.
@@ -29,10 +31,12 @@ AEnderProjectile::AEnderProjectile()
 		// Set the sphere's collision radius.
 		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 		CollisionComponent->InitSphereRadius(1.0f);//15.0f
-		// CollisionComponent->SetSimulatePhysics(true);
+		CollisionComponent->SetNotifyRigidBodyCollision(true);
+		CollisionComponent->SetSimulatePhysics(true);
 		// UE_LOG(LogTemp, Warning, TEXT("physics: %d"), CollisionComponent->IsSimulatingPhysics());
 		// Set the root component to be the collision component.
-		RootComponent = CollisionComponent;
+		RootComponent=CollisionComponent;
+		// CollisionComponent->SetupAttachment(RootComponent);
 	}
 	// // Set the sphere's collision profile name to "Projectile".
 	// ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
@@ -51,17 +55,13 @@ AEnderProjectile::AEnderProjectile()
 	if(!ProjectileMeshComponent)
 	{
 		ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
-		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/Sphere.Sphere'"));
+		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/SphereUpdated.SphereUpdated'"));
 		if(Mesh.Succeeded())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("MESH SUCCESS"));
 			ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
 		}
 	}
-	 SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
-     SpringArm->SetupAttachment(RootComponent);
-     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-     Camera->SetupAttachment(SpringArm);
-	
 
 
 
@@ -71,11 +71,24 @@ AEnderProjectile::AEnderProjectile()
 		ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
 	}
 	ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
-	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
+	// ProjectileMeshComponent->SetRelativeScale3D(FVector(0.05f, 0.05f, 0.05f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
-	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
+	// ProjectileMeshComponent->SetNotifyRigidBodyCollision(true);
+	// ProjectileMeshComponent->SetSimulatePhysics(true);
+	// ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 
-
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
+	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->AttachTo(RootComponent);
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(SpringArm);
+	// Camera->SetupAttachment(RootComponent);
+	
+	// UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(GetComponentByClass(UPrimitiveComponent::StaticClass()));
+	// Primitive->SetNotifyRigidBodyCollision(true);
+	// Primitive->SetSimulatePhysics(true);
+	// UE_LOG(LogTemp, Warning, TEXT("notify collision: %d, %d, %d"), Primitive->IsCollisionEnabled(), Primitive->IsPhysicsCollisionEnabled(), 
+	// Primitive->GetCollisionShape().IsSphere());
 
 
 	// CurrentMode = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement()->GetGroundMovementMode();
@@ -95,13 +108,15 @@ void AEnderProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (this->GetActorLocation().Z < -1000)
 	{
-		UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
-		// Movement->SetMovementMode(EMovementMode::MOVE_Walking);
-		// UE_LOG(LogTemp, Warning, TEXT("%s"), *(Movement->GetAirControl().ToString()));
-		Movement->SetMovementMode(CurrentMode);
-		Movement->AirControl = 1.f;
-		Movement->GravityScale = 1.f;
-		Destroy();
+		UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(GetComponentByClass(UPrimitiveComponent::StaticClass()));
+		Primitive->AddImpulse(FVector(0,0,1));
+		// UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
+		// // Movement->SetMovementMode(EMovementMode::MOVE_Walking);
+		// // UE_LOG(LogTemp, Warning, TEXT("%s"), *(Movement->GetAirControl().ToString()));
+		// Movement->SetMovementMode(CurrentMode);
+		// Movement->AirControl = 1.f;
+		// Movement->GravityScale = 0.5f;
+		// Destroy();
 	}
 }
 

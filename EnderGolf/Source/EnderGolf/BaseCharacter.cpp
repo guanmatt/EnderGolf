@@ -238,10 +238,10 @@ void ABaseCharacter::DrawTrajectory()
 		}
 		FHitResult HitResult;
 		FCollisionQueryParams TraceParams;
-
 		for (int32 j = 0; j < ProjectilePoints.Num()-1; j++)
 		{
-			GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_GameTraceChannel1, TraceParams);
+			GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_Visibility, TraceParams);
+			// GetWorld()->LineTraceSingleByChannel(HitResult, ProjectilePoints[j], ProjectilePoints[j+1], ECC_GameTraceChannel1, TraceParams);
 			// UE_LOG(LogTemp, Warning, TEXT("%d"), HitResult.IsValidBlockingHit());
 			if (HitResult.IsValidBlockingHit()){
 				// DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), true, 2.0f);
@@ -250,6 +250,7 @@ void ABaseCharacter::DrawTrajectory()
 			DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,255,255), false, GetWorld()->GetDeltaSeconds()+GetWorld()->GetDeltaSeconds()*0.0001);
 			// DrawDebugPoint(GetWorld(), ProjectilePoints[j], 5.0f, FColor(255,0,0), true);
 		}
+
 	}
 }
 
