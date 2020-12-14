@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "EnderProjectile_Invisible.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
-#include "EnderProjectile_Invisible.h"
 
 AEnderProjectile_Invisible::AEnderProjectile_Invisible()
 {

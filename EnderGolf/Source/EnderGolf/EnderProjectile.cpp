@@ -21,7 +21,7 @@ AEnderProjectile::AEnderProjectile()
 	if(!RootComponent)
 	{
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSceneComponent"));
-
+		// RootComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	}
 	
    	if(!CollisionComponent)
@@ -33,6 +33,7 @@ AEnderProjectile::AEnderProjectile()
 		CollisionComponent->InitSphereRadius(1.0f);//15.0f
 		CollisionComponent->SetNotifyRigidBodyCollision(true);
 		CollisionComponent->SetSimulatePhysics(true);
+
 		// UE_LOG(LogTemp, Warning, TEXT("physics: %d"), CollisionComponent->IsSimulatingPhysics());
 		// Set the root component to be the collision component.
 		RootComponent=CollisionComponent;
@@ -58,7 +59,7 @@ AEnderProjectile::AEnderProjectile()
 		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/SphereUpdated.SphereUpdated'"));
 		if(Mesh.Succeeded())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("MESH SUCCESS"));
+			// UE_LOG(LogTemp, Warning, TEXT("MESH SUCCESS"));
 			ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
 		}
 	}
@@ -108,15 +109,16 @@ void AEnderProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (this->GetActorLocation().Z < -1000)
 	{
-		UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(GetComponentByClass(UPrimitiveComponent::StaticClass()));
-		Primitive->AddImpulse(FVector(0,0,1));
-		// UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
-		// // Movement->SetMovementMode(EMovementMode::MOVE_Walking);
-		// // UE_LOG(LogTemp, Warning, TEXT("%s"), *(Movement->GetAirControl().ToString()));
-		// Movement->SetMovementMode(CurrentMode);
-		// Movement->AirControl = 1.f;
-		// Movement->GravityScale = 0.5f;
-		// Destroy();
+		// UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(GetComponentByClass(UPrimitiveComponent::StaticClass()));
+		// Primitive->AddImpulse(FVector(0,0,1));
+		UCharacterMovementComponent* Movement = UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetCharacterMovement();
+		// Movement->SetMovementMode(EMovementMode::MOVE_Walking);
+		// UE_LOG(LogTemp, Warning, TEXT("%s"), *(Movement->GetAirControl().ToString()));
+		Movement->SetMovementMode(CurrentMode);
+		Movement->AirControl = 1.f;
+		Movement->GravityScale = 0.5f;
+		
+		Destroy();
 	}
 }
 
@@ -133,6 +135,11 @@ void AEnderProjectile::FireInDirection(const FVector& ShootDirection)
     ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
 
+void AEnderProjectile::ResetCamera()
+{
+	APlayerController* Player = UGameplayStatics::GetPlayerController(this, 0);
+	Player->SetViewTargetWithBlend(Player, 0.2f);
+}
 // Function that is called when the projectile hits something.
 /*void AEnderProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {

@@ -52,6 +52,7 @@ void AEnderProjectile_Sticky::OnHit(UPrimitiveComponent* HitComponent, AActor* O
 			Movement->GravityScale = 0.f;
 		}
 		Player->TeleportTo(CollisionLocation, Player->GetActorRotation());
+		// ResetCamera();
 	}
     Destroy();
 }

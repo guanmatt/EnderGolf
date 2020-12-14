@@ -49,6 +49,7 @@ void AEnderProjectile_Normal::OnHit(UPrimitiveComponent* HitComponent, AActor* O
 			Movement->GravityScale = 1.f;
 		}
 		Player->TeleportTo(CollisionLocation, Player->GetActorRotation());
+		// ResetCamera();
 	}
     Destroy();
 }

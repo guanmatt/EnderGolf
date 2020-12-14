@@ -16,7 +16,7 @@ ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
 }
 
 // Called when the game starts or when spawned
@@ -27,7 +27,7 @@ void ABaseCharacter::BeginPlay()
 
 	// Display a debug message for five seconds. 
 	// The -1 "Key" value argument prevents the message from being updated or refreshed.
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
 }
 
 // Called every frame
@@ -35,6 +35,13 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	DrawTrajectory();
+	/*TArray<AActor*> Overlap; 
+	GetOverlappingActors(Overlap);
+	if(Overlap.Num()>0){
+	
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Overlap[0]->GetActorLabel())
+
+	}*/
 	/*
 	FVector MuzzleLocation;
 	FRotator MuzzleRotation;
@@ -86,14 +93,16 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void ABaseCharacter::MoveForward(float Value)
 {
     // Find out which way is "forward" and record that the player wants to move that way.
-    FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	FVector Direction = FRotationMatrix(FRotator(0.0f, Controller->GetControlRotation().Yaw, 0.0f)).GetScaledAxis(EAxis::X);
     AddMovementInput(Direction, Value);
 }
 
 void ABaseCharacter::MoveRight(float Value)
 {
     // Find out which way is "right" and record that the player wants to move that way.
-    FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+	FVector Direction = FRotationMatrix(FRotator(0.0f, Controller->GetControlRotation().Yaw, 0.0f)).GetScaledAxis(EAxis::Y);
     AddMovementInput(Direction, Value);
 }
 
@@ -118,6 +127,7 @@ void ABaseCharacter::Throw()
 			FVector LaunchDirection = MuzzleRotation.Vector();
 			APlayerController* Player = UGameplayStatics::GetPlayerController(this, 0);
 			Player->SetViewTargetWithBlend(Projectile, 2.f);
+			// Player->SetViewTarget(Projectile);
 			Projectile->FireInDirection(LaunchDirection);
 			
 		}
@@ -142,7 +152,8 @@ void ABaseCharacter::Throw1()
 			// Set the projectile's initial trajectory.
 			FVector LaunchDirection = MuzzleRotation.Vector();
 			APlayerController* Player = UGameplayStatics::GetPlayerController(this, 0);
-			Player->SetViewTargetWithBlend(Projectile, 2.f);
+			Player->SetViewTargetWithBlend(Projectile, 0.5f);
+			// Player->SetViewTarget(Projectile);
 			Projectile->FireInDirection(LaunchDirection);
 			
 		}
@@ -209,7 +220,7 @@ void ABaseCharacter::ShowTrajectory()
 	}
 	for (int32 i = 0; i<PredictResult.PathData.Num(); i++)
 	{
-		DrawDebugPoint(GetWorld(), PredictResult.PathData[i].Location, 5.0f, FColor(255,255,255), false, 0.5f);
+		DrawDebugPoint(GetWorld(), PredictResult.PathData[i].Location, 5.0f, FColor(255,255,255), false, 0.f);
 	}
 	
 }
@@ -229,7 +240,7 @@ void ABaseCharacter::DrawTrajectory()
 		// UE_LOG(LogTemp, Warning, TEXT("%d"), FApp::GetDeltaTime());
 		for (float i = 0.f; i<5.0f; i+=0.05)
 		{
-			ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ() * 0.5) * i * i);
+			ProjectilePoints.Push(MuzzleLocation + MuzzleRotation.Vector().GetSafeNormal() * 1000.f * i + 0.5 * FVector(0,0, GetWorld()->GetGravityZ()) * i * i);
 			/*ProjectilePoints.Push(FVector(
 				MuzzleLocation.X + MuzzleRotation.Vector().X * i,
 				MuzzleLocation.Y + MuzzleRotation.Vector().Y * i, 
@@ -247,7 +258,7 @@ void ABaseCharacter::DrawTrajectory()
 				// DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,0,0), true, 2.0f);
 				break;
 			}
-			DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,255,255), false, GetWorld()->GetDeltaSeconds()+GetWorld()->GetDeltaSeconds()*0.0001);
+			DrawDebugLine(GetWorld(), ProjectilePoints[j], ProjectilePoints[j+1],FColor(255,255,255), false, 0.f, 0, 0.f);//GetWorld()->GetDeltaSeconds()+GetWorld()->GetDeltaSeconds()*0.0001);
 			// DrawDebugPoint(GetWorld(), ProjectilePoints[j], 5.0f, FColor(255,0,0), true);
 		}
 

@@ -13,7 +13,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
-UCLASS()
+UCLASS(BlueprintType)
 class ENDERGOLF_API AEnderProjectile : public APawn
 {
 	GENERATED_BODY()
@@ -40,7 +40,7 @@ public:
 
 	// Function that initializes the projectile's velocity in the shoot direction.
 	void FireInDirection(const FVector& ShootDirection);
-
+	void ResetCamera();
 	// Projectile mesh
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 	UStaticMeshComponent* ProjectileMeshComponent;
